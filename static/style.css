@@ -1,0 +1,33 @@
+.container {
+  height: 97vh;
+  position: relative;
+}
+
+.vertical-centre {
+  margin: 0;
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+h1 {
+  text-align: center;
+  color: red;
+}
+
+.login-title {
+  margin: 0;
+}
+
+p {
+  text-align: center;
+}
+
+form .username-section, form .password-section {
+  margin: 1em;
+  text-align: center;
+}
+form .login-button {
+  text-align: center;
+}/*# sourceMappingURL=style.css.map */
