@@ -4,8 +4,11 @@ import sqlite3
 def getSongInfo(results):
     info = []
     for _, item in enumerate(results['items']):
-       info.append((item['name'], item['artists'][0]['name'], item['id'], item['album']['images'][0]['url']))
-    
+       info.append([item['id'], 
+                    item['name'], 
+                    item['artists'][0]['name'], 
+                    item['album']['images'][0]['url']])  
+      
     return info
 
 def spotipy():
@@ -18,9 +21,23 @@ def spotipy():
                                                         client_secret = 'c41b00cdf04b4f308671e58236f9f25d',
                                                         redirect_uri = 'https://localhost:5500',
                                                         scope=sc))
+   
+    basicInfo = getSongInfo(sp.current_user_top_tracks(50, 0, "short_term")) # LIST OF LIST WITHOUT AUDIO FEATURES
+    fullInfo = []
 
-    return getSongInfo(sp.current_user_top_tracks(50, 0, "short_term"))
+    for track in basicInfo:
+      audioFeatures = sp.audio_features(track[0])[0]
+      track += [audioFeatures['danceability'], 
+                       audioFeatures['energy'], 
+                       audioFeatures['acousticness'], 
+                       audioFeatures['instrumentalness'], 
+                       audioFeatures['tempo']]
+      fullInfo.append(tuple(track))
+    
 
+    return fullInfo
+  
+    
 
 def executeSQL(command, t = ()):
   connection = sqlite3.connect("connectune.db") # create database
@@ -67,6 +84,7 @@ def createDefaultTables():
     Energy FLOAT,
     Acousticness FLOAT,
     Instrumentalness FLOAT,
+    Tempo FLOAT,
     PRIMARY KEY(SongID));
   """)
 
@@ -102,8 +120,6 @@ def register (username, password, displayName):
 
 
 def login (username, password):
-  if not (validateAlnum(username) and validateAlnum(password)):
-    return False
   if executeSQL(f"""
   SELECT * FROM Accounts
   WHERE Username = '{username}' 
@@ -145,16 +161,16 @@ def makeFriends (username1, username2):
     return True
 
 def populateSongTables(username, songs):
-  for (song, artist, songID, url, danceability, energy, acousticness, instrumentalness) in songs:
+  for (songID, song, artist, url, danceability, energy, acousticness, instrumentalness, tempo) in songs:
     # add all new songs found into the songs database
     if (executeSQL(f"SELECT * FROM Songs WHERE SongID = '{songID}';") == []):
-      executeSQL('''INSERT INTO Songs (Username, SongName, Artist, SongID, AlbumArtURL, Time) VALUES (?, ?, ?, ?, ?, ?, ?, ?);''',
-                 (songID, song, artist, url, danceability, energy, acousticness, instrumentalness))
+      executeSQL('''INSERT INTO Songs (SongID, SongName, Artist, AlbumArtURL, Danceability, Energy, Acousticness, Instrumentalness, Tempo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);''',
+                 (songID, song, artist, url, danceability, energy, acousticness, instrumentalness, tempo))
     
     if (executeSQL(f"SELECT * FROM RecentSongs WHERE Username = '{username}' AND SongID = '{songID}';") == []):
       executeSQL(f"""
       INSERT INTO RecentSongs (Username, SongID) 
-      VALUES ('{username}, {songID}');
+      VALUES ('{username}', '{songID}');
       """)
     else:
       executeSQL(f"""
@@ -164,10 +180,13 @@ def populateSongTables(username, songs):
       """)
 
 
-
-
 createDefaultTables()
-spotipy()
+register("pee", "poo", "d")
+
+if(login("pee", "poo")):
+  user = "pee"
+  populateSongTables(user, spotipy())
+
 print(executeSQL("SELECT * FROM Songs"))
 
 print(executeSQL("SELECT * FROM Accounts"))
