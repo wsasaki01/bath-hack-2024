@@ -103,7 +103,7 @@ def validateAlnum(string, lngth=12):
     return False
 
 
-def register (username, password, displayName):  
+def connectuneRegister (username, password, displayName):  
   if not (validateAlnum(username) and validateAlnum(password), validateAlnum(displayName)):
     return False
   if executeSQL( f"SELECT Username FROM Accounts WHERE Username = '{username}';") != []:
@@ -173,9 +173,9 @@ def populateSongTables(username, songs):
       """)
 
 createDefaultTables()
-register("pee", "poo", "d")
+connectuneRegister("pee", "poo", "d")
 
-if(login("pee", "poo")):
+if(connectuneLogin("pee", "poo")):
   user = "pee"
   populateSongTables(user, spotipy())
 
