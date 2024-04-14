@@ -1,12 +1,11 @@
-
 import sqlite3
 
 
-def getSongInfo(results, time):
+def getSongInfo(results):
     info = []
     for _, item in enumerate(results['items']):
-       info.append((item['name'], item['artists'][0]['name'], item['id'], item['album']['images'][0]['url'], time))
-        
+       info.append((item['name'], item['artists'][0]['name'], item['id'], item['album']['images'][0]['url']))
+    
     return info
 
 def spotipy():
@@ -20,12 +19,7 @@ def spotipy():
                                                         redirect_uri = 'https://localhost:5500',
                                                         scope=sc))
 
-    results = []
-    results += getSongInfo(sp.current_user_top_tracks(50, 0, "short_term"), 1)
-    results += getSongInfo(sp.current_user_top_tracks(50, 0, "medium_term"), 2)
-    results += getSongInfo(sp.current_user_top_tracks(50, 0, "long_term"), 3)
-    print(results)
-    return results
+    return getSongInfo(sp.current_user_top_tracks(50, 0, "short_term"))
 
 
 def executeSQL(command, t = ()):
@@ -64,16 +58,25 @@ def createDefaultTables():
   """)
 
   executeSQL("""
-  CREATE TABLE IF NOT EXISTS RecentSongs(
-    Username VARCHAR(12),
+  CREATE TABLE IF NOT EXISTS Songs(
+    SongID VARCHAR(50),
     SongName VARCHAR(300),
     Artist VARCHAR(300),
-    SongID VARCHAR(50),
     AlbumArtURL VARCHAR(300),
-    Time INT,
+    Danceability FLOAT,
+    Energy FLOAT,
+    Acousticness FLOAT,
+    Instrumentalness FLOAT,
+    PRIMARY KEY(SongID));
+  """)
+
+  executeSQL("""
+  CREATE TABLE IF NOT EXISTS RecentSongs(
+    Username VARCHAR(12),
+    SongID VARCHAR(50),
     FOREIGN KEY (Username) REFERENCES Accounts(Username),
-    PRIMARY KEY(Username, SongID)
-  )
+    FOREIGN KEY (SongID) REFERENCES Songs(SongID),
+    PRIMARY KEY(Username, SongID));
   """)
 
 def register (username, password, displayName):  
@@ -131,29 +134,34 @@ def makeFriends (username1, username2):
     print(f"{username1} and {username2} are now friends!!!!!")
     return True
 
-def populateSongs(username, songs):
-  for (song, artist, songID, url, time) in songs:
-    songInfo = executeSQL(f"""SELECT Time FROM RecentSongs
-              WHERE Username = '{username}' AND SongID = '{songID}';
-              """)
+def populateSongTables(username, songs):
+  for (song, artist, songID, url, danceability, energy, acousticness, instrumentalness) in songs:
+    # add all new songs found into the songs database
+    if (executeSQL(f"SELECT * FROM Songs WHERE SongID = '{songID}';") == []):
+      executeSQL('''INSERT INTO Songs (Username, SongName, Artist, SongID, AlbumArtURL, Time) VALUES (?, ?, ?, ?, ?, ?, ?, ?);''',
+                 (songID, song, artist, url, danceability, energy, acousticness, instrumentalness))
     
-    if (songInfo == []):
-      executeSQL('''INSERT INTO RecentSongs (Username, SongName, Artist, SongID, AlbumArtURL, Time) VALUES (?, ?, ?, ?, ?, ?);''',
-                 (username, song, artist, songID, url, time))
-    elif (int(songInfo[0][0]) > int(time)):
+    if (executeSQL(f"SELECT * FROM RecentSongs WHERE Username = '{username}' AND SongID = '{songID}';") == []):
       executeSQL(f"""
-      UPDATE RecentSongs 
-      SET Time = {time}
-      WHERE Username = '{username}' AND SongID = '{songID}';
+      INSERT INTO RecentSongs (Username, SongID) 
+      VALUES ('{username}, {songID}');
+      """)
+    else:
+      executeSQL(f"""
+      UPDATE TABLE RecentSongs
+      SET SongID = '{songID}'
+      WHERE Username = '{username}';
       """)
     
+    
+
 
 
 createDefaultTables()
-register("pee", "abc", "DT")
-user = "pee"
-populateSongs(user, spotipy())
+
 print(executeSQL("SELECT * FROM Accounts"))
-#im just ken
 print(executeSQL("SELECT * FROM Connections"))
+print(executeSQL("SELECT * FROM RecentSongs"))
+print(executeSQL("SELECT * FROM Songs"))
+
 
