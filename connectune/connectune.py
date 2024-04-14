@@ -102,7 +102,6 @@ def validateAlnum(string, lngth=12):
   else:
     return False
 
-
 def connectuneRegister (username, password, displayName):  
   if not (validateAlnum(username) and validateAlnum(password), validateAlnum(displayName)):
     return False
@@ -116,7 +115,6 @@ def connectuneRegister (username, password, displayName):
     """)
     print(f"Welcome!! Registered {username}, {password}, {displayName}")
     return True
-
 
 def connectuneLogin (username, password):
   if executeSQL(f"""
@@ -222,6 +220,20 @@ def generateDescription(songID):
     playlistID = playlist['id']
     sp.user_playlist_add_tracks(playlistID, songs)
 
+  def search(name, artist):
+    import spotipy
+    from spotipy.oauth2 import SpotifyOAuth
+
+    sc = "user-top-read, playlist-modify-public"
+
+    sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id = 'b6deea05a49345a88e35cdcf4d45a438',
+                                                        client_secret = 'c41b00cdf04b4f308671e58236f9f25d',
+                                                        redirect_uri = 'https://localhost:5500',
+                                                        scope=sc))
+    result = sp.search(q="artist:" + artist + " track:" + name, type="track")
+    
+    return result[0]['id']
+    
 
     
 
