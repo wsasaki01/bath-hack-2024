@@ -152,16 +152,16 @@ def populateSongTables(username, songs):
       SET SongID = '{songID}'
       WHERE Username = '{username}';
       """)
-    
-    
+
 
 
 
 createDefaultTables()
+spotipy()
+print(executeSQL("SELECT * FROM Songs"))
 
 print(executeSQL("SELECT * FROM Accounts"))
 print(executeSQL("SELECT * FROM Connections"))
 print(executeSQL("SELECT * FROM RecentSongs"))
-print(executeSQL("SELECT * FROM Songs"))
 
 
