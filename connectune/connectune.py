@@ -11,7 +11,7 @@ def getSongInfo(results):
       
     return info
 
-def spotipy():
+def getSpotifyInfo():
     import spotipy
     from spotipy.oauth2 import SpotifyOAuth
 
@@ -37,7 +37,6 @@ def spotipy():
 
     return fullInfo
   
-    
 
 def executeSQL(command, t = ()):
   connection = sqlite3.connect("connectune.db") # create database
@@ -161,24 +160,17 @@ def makeFriends (username1, username2):
     return True
 
 def populateSongTables(username, songs):
+  executeSQL(f"DELETE FROM Songs WHERE Username = '{username}';")
+
   for (songID, song, artist, url, danceability, energy, acousticness, instrumentalness, tempo) in songs:
     # add all new songs found into the songs database
     if (executeSQL(f"SELECT * FROM Songs WHERE SongID = '{songID}';") == []):
       executeSQL('''INSERT INTO Songs (SongID, SongName, Artist, AlbumArtURL, Danceability, Energy, Acousticness, Instrumentalness, Tempo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);''',
                  (songID, song, artist, url, danceability, energy, acousticness, instrumentalness, tempo))
-    
-    if (executeSQL(f"SELECT * FROM RecentSongs WHERE Username = '{username}' AND SongID = '{songID}';") == []):
       executeSQL(f"""
       INSERT INTO RecentSongs (Username, SongID) 
       VALUES ('{username}', '{songID}');
       """)
-    else:
-      executeSQL(f"""
-      UPDATE TABLE RecentSongs
-      SET SongID = '{songID}'
-      WHERE Username = '{username}';
-      """)
-
 
 createDefaultTables()
 register("pee", "poo", "d")
@@ -188,7 +180,6 @@ if(login("pee", "poo")):
   populateSongTables(user, spotipy())
 
 print(executeSQL("SELECT * FROM Songs"))
-
 print(executeSQL("SELECT * FROM Accounts"))
 print(executeSQL("SELECT * FROM Connections"))
 print(executeSQL("SELECT * FROM RecentSongs"))
