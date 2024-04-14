@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+
+{% from 'bootstrap/form.html' import render_form %}
+
+{% block head %}{{ super() }}{% endblock %}
+
+{% block content %}
+    <div class="container login">
+        <div class="vertical-centre">
+            <section class="marquee-container">
+                <p class="loop-text teko slant">CONNECT WITH YOUR FRIENDS THROUGH MUSIC //&nbsp; </p>
+                <p class="loop-text teko slant">CONNECT WITH YOUR FRIENDS THROUGH MUSIC //&nbsp; </p>
+                <p class="loop-text teko slant">CONNECT WITH YOUR FRIENDS THROUGH MUSIC //&nbsp; </p>
+            </section>
+            
+            <div class="login-logo">
+                <h1 class="teko slant">
+                    <span class="logo-first">CONNEC</span><span class="logo-middle">T</span><span class="logo-end">UNE</span>
+                    <br>
+                    <span class="logo-first">CONNEC</span><span class="logo-middle">T</span><span class="logo-end">UNE</span>
+                    <br>
+                    <span class="logo-first">CONNEC</span><span class="logo-middle">T</span><span class="logo-end">UNE</span>
+                    <br>
+                </h1>
+            </div>
+
+            <section class="marquee-container">
+                <p class="loop-text teko slant">CONNECT WITH YOUR FRIENDS THROUGH MUSIC //&nbsp; </p>
+                <p class="loop-text teko slant">CONNECT WITH YOUR FRIENDS THROUGH MUSIC //&nbsp; </p>
+                <p class="loop-text teko slant">CONNECT WITH YOUR FRIENDS THROUGH MUSIC //&nbsp; </p>
+            </section>
+
+            {{ render_form(form) }}
+            <p>{{ message }}</p>
+
+            <!--
+            <form>
+                <div class="username-section">
+                    <label for="username">Username</label>
+                    <input id="username" type="text">
+                </div>
+        
+                <div class="password-section">
+                    <label for="password">Password</label>
+                    <input id="password" type="text">
+                </div>
+        
+                <div class="login-button">
+                    <input type="button" value="Log In">
+                </div>
+            </form>
+            -->
+        </div>
+    </div>
+{% endblock %}

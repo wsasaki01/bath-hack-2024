@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block head %}{{ super() }}{% endblock %}
+
+{% block header %}
+<h1 class="teko slant">
+    <span class="logo-first">CONNEC</span><span class="logo-middle">T</span><span class="logo-end">UNE</span>
+</h1>
+{% endblock %}
+
+{% block content %}
+<div class="container view">
+    <h1 id="playlist-name">{{ name }}</h1>
+
+    <table>
+        <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    {% for i in range(0, len) %}
+        <tr class="song-row">
+            <td class="song-cover">
+                <img src="static/images/cover.png">
+            </td>
+            <td class="song-info">
+                <span class="song-name"><strong>{{ playlist[i][0] }}</strong></span>
+                <br>
+                <span class="song-artist">{{ playlist[i][1] }}</span>
+            </td>
+            <td class="song-links">
+                <a href="{{ playlist[i][2] }}">
+                    <img class="spotify-link" src="static/images/spotify-logo.png">
+                </a>
+                <a href="{{ playlist[i][3] }}">
+                    <img class="apple-link" src="static/images/apple-logo.png">
+                </a>
+            </td>
+        </tr>
+    {% endfor %}
+    </table>
+</div>
+{% endblock %}

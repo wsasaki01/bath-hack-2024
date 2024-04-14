@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block head %}{{ super() }}{% endblock %}
+
+{% block header %}
+<h1 class="teko slant">
+    <span class="logo-first">CONNEC</span><span class="logo-middle">T</span><span class="logo-end">UNE</span>
+</h1>
+{% endblock %}
+
+{% block content %}
+    <div class="container home">
+        <div class="vertical-centre">
+            <div class="btn-container btn-container-large teko-small">
+                <a id="generate-btn" href="{{ url_for('generate') }}">
+                    <p class="btn-link">Generate a Playlist</p>
+                </a>
+            </div>
+
+            <div class="btn-container teko-small">
+                <a id="add-friends-btn" href="{{ url_for('generate') }}">
+                    <p class="btn-link">Add Friends</p>
+                </a>
+            </div>
+
+            <div class="btn-container teko-small">
+                <a id="compare-friends-btn" href="{{ url_for('generate') }}">
+                    <p class="btn-link">Compare Friends</p>
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

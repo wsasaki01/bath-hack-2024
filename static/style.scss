@@ -1,3 +1,41 @@
+/* Whole-Scope */
+
+html {
+    font-family: "Lexend", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 100;
+    font-style: normal;
+}
+
+.bgg {
+    background: linear-gradient(270deg, #c67758, #6e0000);
+    background-size: 400% 400%;
+
+    -webkit-animation: bgg 19s ease infinite;
+    -moz-animation: bgg 19s ease infinite;
+    animation: bgg 19s ease infinite;
+}
+
+@-webkit-keyframes bgg {
+    0%{background-position:0% 67%}
+    50%{background-position:100% 34%}
+    100%{background-position:0% 67%}
+}
+@-moz-keyframes bgg {
+    0%{background-position:0% 67%}
+    50%{background-position:100% 34%}
+    100%{background-position:0% 67%}
+}
+@keyframes bgg {
+    0%{background-position:0% 67%}
+    50%{background-position:100% 34%}
+    100%{background-position:0% 67%}
+}
+
+body {
+    margin: 0;
+}
+
 .container {
     height: 97vh;
     position: relative;
@@ -7,31 +45,243 @@
     margin: 0;
     position: absolute;
     width: 100%;
-    top: 50%;
+    top: 40%;
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
 }
 
-h1 {
+#header img, #login-logo {
+    width: 100%;
+}
+
+.teko {
+    font-family: "Teko", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 4.5em;
+    user-select: none;
+    margin: 0.2em auto;
     text-align: center;
-    color: red;
+    
+    .logo-first {color: #2c91b0;}
+    .logo-middle {color: #7c67cd;}
+    .logo-end {color: #ab15e6;}
 }
 
-.login-title {
-    margin: 0;
+.teko-small {
+    font-family: "Teko", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 1em;
 }
 
-p {
-    text-align: center;
+.slant {
+    --title-slant: -18deg;
+    -moz-transform: scale(1) rotate(0deg) translate(0px, 0px) skew(var(--title-slant), 0deg);
+    -webkit-transform: scale(1) rotate(0deg) translate(0px, 0px) skew(var(--title-slant), 0deg);
+    -o-transform: scale(1) rotate(0deg) translate(0px, 0px) skew(var(--title-slant), 0deg);
+    -ms-transform: scale(1) rotate(0deg) translate(0px, 0px) skew(var(--title-slant), 0deg);
+    transform: scale(1) rotate(0deg) translate(0px, 0px) skew(var(--title-slant), 0deg);
 }
 
-form {
-    .username-section, .password-section {
-        margin: 1em;
-        text-align: center;
+/* Login Page */
+.login {
+    .login-logo {
+        overflow: hidden;
+        margin: 0 auto;
+        height: 19vh;
+
+        h1 {
+            line-height: 0.7em;
+            max-width: 100%;
+        }
+    }
+    
+    .marquee-container {
+        height: 4em;
+        display: flex;
+        white-space: nowrap;
+        max-width: 100%;
+        overflow: hidden;
+        user-select: none;
+
+        .loop-text {
+            margin: 0;
+            font-size: 2.5em;
+            animation: scroll 10s linear infinite;
+        }
     }
 
-    .login-button {
+    @keyframes scroll {
+        0% {
+            transform: translateX(0);
+        }
+
+        100% {
+            transform: translateX(-100%);
+        }
+    }
+    
+    form {
         text-align: center;
+
+        .form-control-label {
+            display: none;
+        }
+
+        .text-input {
+            width: 50%;
+            margin: 0.5em auto;
+            padding: 0.5em;
+            border-radius: 0;
+            border: 2px solid #80b5c5;
+            background-color: #80b5c5;
+
+            &:focus-visible {
+                outline: none;
+                border: 2px solid white;
+            }
+        }
+
+        .login-submit {
+            border: none;
+            padding: 0.3em 1em;
+            margin: 0.5em;
+            font-size: 1.3em;
+        }
+    }
+}
+
+/* Home */
+.home {
+    .vertical-centre {
+        height: 50vh;
+
+        .btn-container {
+            height: 25%;
+            padding: auto;
+        }
+
+        .btn-container-large {
+            height: 50%;
+        }
+    }
+
+    a {
+        text-decoration: none;
+        font-size: 2em;
+    }
+    
+    .btn-link {
+        width: 50%;
+        text-align: center;
+        padding: 0.5em 0.8em;
+        margin: 0 auto;
+        border-radius: 0;
+        border-color: white;
+        border-style: solid;
+        background-color: white;
+    }
+
+    #generate-btn {
+        font-size: 3em;
+
+        .btn-link {
+            width: 65%;
+        }
+    }
+}
+
+/* Generate */
+.generate {
+    .vertical-centre {
+        text-align: center;
+
+        h1 {
+            text-align: center;
+            font-size: 3em;
+        }
+
+        input {
+            border: none;
+            padding: 0.3em 1em;
+            margin: 0.5em;
+            font-size: 1.3em;
+        }
+    }
+}
+
+/* View */
+.view {
+    width: 100%;
+
+    #playlist-name {
+        width: 95%;
+        margin: 0.5em auto;
+        text-align: center;
+        font-size: 10vw;
+        word-wrap: break-word;
+    }
+
+    table {
+        background-color: rgba(255, 255, 255, 0.573);
+        border-radius: 4px;
+
+        display: block;
+        width: 94%;
+        margin: 0 auto 1em auto;
+
+        .song-row {
+            height: 100%;
+            margin: 0.1em 0;
+            display: flex;
+            flex-direction: row;
+            align-items: stretch;
+
+            .song-cover {
+                width: 15%;
+
+                img {
+                    display: block;
+                    width: 100%;
+                    border-radius: 7px;
+                }
+            }
+
+            .song-info {
+                display: block;
+                line-height: 1.1em;
+                padding-left: 0.3em;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                width: 60%;
+    
+                .song-name {
+                    font-size: 1.2em;
+                    margin: 0;
+                }
+        
+                .song-artist {
+                    font-style: italic;
+                }
+            }
+    
+            .song-links {
+                width: 15%;
+    
+                a {
+                    text-decoration: none;
+    
+                    img {
+                        display: inline;
+                        max-width: 45%;
+                        max-height: 3vh;
+                    }
+                }
+            }
+        }
     }
 }

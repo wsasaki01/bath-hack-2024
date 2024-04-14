@@ -1,3 +1,31 @@
+/* Whole-Scope */
+html {
+  font-family: "Lexend", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 100;
+  font-style: normal;
+}
+
+.bgg {
+  background: linear-gradient(270deg, #c67758, #6e0000);
+  background-size: 400% 400%;
+  animation: bgg 19s ease infinite;
+}
+@keyframes bgg {
+  0% {
+    background-position: 0% 67%;
+  }
+  50% {
+    background-position: 100% 34%;
+  }
+  100% {
+    background-position: 0% 67%;
+  }
+}
+body {
+  margin: 0;
+}
+
 .container {
   height: 97vh;
   position: relative;
@@ -7,27 +35,211 @@
   margin: 0;
   position: absolute;
   width: 100%;
-  top: 50%;
+  top: 40%;
   transform: translateY(-50%);
 }
 
-h1 {
-  text-align: center;
-  color: red;
+#header img, #login-logo {
+  width: 100%;
 }
 
-.login-title {
+.teko {
+  font-family: "Teko", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+  font-size: 4.5em;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  margin: 0.2em auto;
+  text-align: center;
+}
+.teko .logo-first {
+  color: #2c91b0;
+}
+.teko .logo-middle {
+  color: #7c67cd;
+}
+.teko .logo-end {
+  color: #ab15e6;
+}
+
+.teko-small {
+  font-family: "Teko", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 1em;
+}
+
+.slant {
+  --title-slant: -18deg;
+  transform: scale(1) rotate(0deg) translate(0px, 0px) skew(var(--title-slant), 0deg);
+}
+
+/* Login Page */
+.login .login-logo {
+  overflow: hidden;
+  margin: 0 auto;
+  height: 19vh;
+}
+.login .login-logo h1 {
+  line-height: 0.7em;
+  max-width: 100%;
+}
+.login .marquee-container {
+  height: 4em;
+  display: flex;
+  white-space: nowrap;
+  max-width: 100%;
+  overflow: hidden;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+.login .marquee-container .loop-text {
+  margin: 0;
+  font-size: 2.5em;
+  animation: scroll 10s linear infinite;
+}
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+.login form {
+  text-align: center;
+}
+.login form .form-control-label {
+  display: none;
+}
+.login form .text-input {
+  width: 50%;
+  margin: 0.5em auto;
+  padding: 0.5em;
+  border-radius: 0;
+  border: 2px solid #80b5c5;
+  background-color: #80b5c5;
+}
+.login form .text-input:focus-visible {
+  outline: none;
+  border: 2px solid white;
+}
+.login form .login-submit {
+  border: none;
+  padding: 0.3em 1em;
+  margin: 0.5em;
+  font-size: 1.3em;
+}
+
+/* Home */
+.home .vertical-centre {
+  height: 50vh;
+}
+.home .vertical-centre .btn-container {
+  height: 25%;
+  padding: auto;
+}
+.home .vertical-centre .btn-container-large {
+  height: 50%;
+}
+.home a {
+  text-decoration: none;
+  font-size: 2em;
+}
+.home .btn-link {
+  width: 50%;
+  text-align: center;
+  padding: 0.5em 0.8em;
+  margin: 0 auto;
+  border-radius: 0;
+  border-color: white;
+  border-style: solid;
+  background-color: white;
+}
+.home #generate-btn {
+  font-size: 3em;
+}
+.home #generate-btn .btn-link {
+  width: 65%;
+}
+
+/* Generate */
+.generate .vertical-centre {
+  text-align: center;
+}
+.generate .vertical-centre h1 {
+  text-align: center;
+  font-size: 3em;
+}
+.generate .vertical-centre input {
+  border: none;
+  padding: 0.3em 1em;
+  margin: 0.5em;
+  font-size: 1.3em;
+}
+
+/* View */
+.view {
+  width: 100%;
+}
+.view #playlist-name {
+  width: 95%;
+  margin: 0.5em auto;
+  text-align: center;
+  font-size: 10vw;
+  word-wrap: break-word;
+}
+.view table {
+  background-color: rgba(255, 255, 255, 0.573);
+  border-radius: 4px;
+  display: block;
+  width: 94%;
+  margin: 0 auto 1em auto;
+}
+.view table .song-row {
+  height: 100%;
+  margin: 0.1em 0;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+.view table .song-row .song-cover {
+  width: 15%;
+}
+.view table .song-row .song-cover img {
+  display: block;
+  width: 100%;
+  border-radius: 7px;
+}
+.view table .song-row .song-info {
+  display: block;
+  line-height: 1.1em;
+  padding-left: 0.3em;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 60%;
+}
+.view table .song-row .song-info .song-name {
+  font-size: 1.2em;
   margin: 0;
 }
-
-p {
-  text-align: center;
+.view table .song-row .song-info .song-artist {
+  font-style: italic;
 }
-
-form .username-section, form .password-section {
-  margin: 1em;
-  text-align: center;
+.view table .song-row .song-links {
+  width: 15%;
 }
-form .login-button {
-  text-align: center;
+.view table .song-row .song-links a {
+  text-decoration: none;
+}
+.view table .song-row .song-links a img {
+  display: inline;
+  max-width: 45%;
+  max-height: 3vh;
 }/*# sourceMappingURL=style.css.map */

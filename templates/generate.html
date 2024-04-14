@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% from 'bootstrap/form.html' import render_form %}
+
+{% block title %}Home{% endblock %}
+
+{% block head %}{{ super() }}{% endblock %}
+
+{% block header %}
+<h1 class="teko slant">
+    <span class="logo-first">CONNEC</span><span class="logo-middle">T</span><span class="logo-end">UNE</span>
+</h1>
+{% endblock %}
+
+{% block content %}
+    <div class="container generate teko-small">
+        <div class="vertical-centre">
+            <h1>Generate a Playlist</h1>
+            {{ render_form(form) }}
+            <p>{{ message }}</p>
+        </div>
+    </div>
+{% endblock %}
