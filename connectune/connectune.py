@@ -79,11 +79,19 @@ def createDefaultTables():
     PRIMARY KEY(Username, SongID));
   """)
 
+def validateAlnum(string, lngth=12):
+  if string.isalnum() and len(string) <= lngth:
+    return True
+  else:
+    return False
+
+
 def register (username, password, displayName):  
+  if not (validateAlnum(username) and validateAlnum(password), validateAlnum(displayName)):
+    return False
   if executeSQL( f"SELECT Username FROM Accounts WHERE Username = '{username}';") != []:
     print(f"Couldnt register {username}, {password}, {displayName}")
     return False
-    #fix this
   else:
     executeSQL(f"""
     INSERT INTO Accounts (Username, Password, DisplayName) 
@@ -94,6 +102,8 @@ def register (username, password, displayName):
 
 
 def login (username, password):
+  if not (validateAlnum(username) and validateAlnum(password)):
+    return False
   if executeSQL(f"""
   SELECT * FROM Accounts
   WHERE Username = '{username}' 
