@@ -12,7 +12,7 @@ def spotipy():
     import spotipy
     from spotipy.oauth2 import SpotifyOAuth
 
-    sc = "user-top-read"
+    sc = "user-top-read, playlist-modify-public"
 
     sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id = 'b6deea05a49345a88e35cdcf4d45a438',
                                                         client_secret = 'c41b00cdf04b4f308671e58236f9f25d',
@@ -162,6 +162,25 @@ def populateSongTables(username, songs):
       SET SongID = '{songID}'
       WHERE Username = '{username}';
       """)
+
+  def exportPlaylist(name, description, songs):
+    import spotipy
+    from spotipy.oauth2 import SpotifyOAuth
+
+    sc = "user-top-read, playlist-modify-public"
+
+    sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id = 'b6deea05a49345a88e35cdcf4d45a438',
+                                                        client_secret = 'c41b00cdf04b4f308671e58236f9f25d',
+                                                        redirect_uri = 'https://localhost:5500',
+                                                        scope=sc))
+    
+    userID = sp.current_user()['id']
+    playlist = sp.user_playlist_create(userID, name, True, False, description)
+    playlistID = playlist['id']
+    sp.user_playlist_add_tracks(playlistID, songs)
+
+
+    
 
 
 
