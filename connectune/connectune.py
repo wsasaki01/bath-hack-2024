@@ -160,7 +160,7 @@ def makeFriends (username1, username2):
     return True
 
 def populateSongTables(username, songs):
-  executeSQL(f"DELETE FROM Songs WHERE Username = '{username}';")
+  executeSQL(f"DELETE FROM RecentSongs WHERE Username = '{username}';")
 
   for (songID, song, artist, url, danceability, energy, acousticness, instrumentalness, tempo) in songs:
     # add all new songs found into the songs database
@@ -172,16 +172,52 @@ def populateSongTables(username, songs):
       VALUES ('{username}', '{songID}');
       """)
 
-createDefaultTables()
-connectuneRegister("pee", "poo", "d")
 
-if(connectuneLogin("pee", "poo")):
-  user = "pee"
-  populateSongTables(user, spotipy())
+def generateDescription(songID):
+  descs = ["danceable", "energetic", "acoustic", "instrumental", "tempo"]
+  audioFeatures = executeSQL(f"""SELECT Danceability, Energy, Acousticness, Instrumentalness, Tempo FROM Songs 
+             WHERE SongID = '{songID}';""")[0]
+  
+  fullDesc = ""
+  audioFeatures = [float(i) for i in audioFeatures]
+  zipped = zip(descs, audioFeatures)
+  for d, f in zipped:
+    if d != "tempo":
+      if f > 0.7:
+        fullDesc += " very " + d + ","
+      elif f > 0.5:
+        fullDesc += d + ","
+      elif f > 0.3:
+        fullDesc += " slightly " + d + ","
+      else:
+        fullDesc += " not-" + d + ","
+    else:
+      if f > 210:
+        fullDesc += " beat fast as possible,"
+      elif f > 180:
+        fullDesc += " extremely fast beat,"
+      elif f > 120:
+        fullDesc += " beat fast and lively"
+      elif f > 100:
+        fullDesc += " moderate speed"
+      else:
+        fullDesc += " slow song"
 
-print(executeSQL("SELECT * FROM Songs"))
-print(executeSQL("SELECT * FROM Accounts"))
-print(executeSQL("SELECT * FROM Connections"))
-print(executeSQL("SELECT * FROM RecentSongs"))
+  return fullDesc 
+
+
+
+
+#createDefaultTables()
+#connectuneRegister("pee", "poo", "d")
+
+#if(connectuneLogin("pee", "poo")):
+#  user = "pee"
+ # populateSongTables(user, getSpotifyInfo())
+
+#print(executeSQL("SELECT * FROM Songs"))
+#print(executeSQL("SELECT * FROM Accounts"))
+#print(executeSQL("SELECT * FROM Connections"))
+#print(executeSQL("SELECT * FROM RecentSongs"))
 
 
