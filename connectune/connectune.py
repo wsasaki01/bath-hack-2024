@@ -118,7 +118,7 @@ def register (username, password, displayName):
     return True
 
 
-def login (username, password):
+def connectuneLogin (username, password):
   if executeSQL(f"""
   SELECT * FROM Accounts
   WHERE Username = '{username}' 
